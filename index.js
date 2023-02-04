@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv').config();
 const dbConnect = require('./config/dbConnect');
+const AuthApis = require('./routes/authApis');
 const UserApis = require('./routes/userApis');
 const PORT = process.env.PORT || 4000;
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //apis
+app.use(`/apis/v1`,AuthApis);
 app.use(`/apis/v1`,UserApis);
 
 //404 not found

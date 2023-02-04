@@ -35,4 +35,49 @@ exports.createUser = async(req,res,next) => {
             msg : 'server error.'
         })
     }
+};
+
+// Get all users
+exports.getAllUser = async(req,res) => {
+    try{
+        const getUsers = await User.find().select("-password");
+        res.json({
+            status : true,
+            msg : "all users fetched successfully.",
+            users : getUsers
+        });
+    }
+    catch(err){
+        res.status(500).json({
+            status : false,
+            msg : "server error."
+        });
+    }
+};
+
+//Get a single user
+exports.getSingleUser = async(req,res) => {
+    try{
+        const {id} = req.params;
+        const getUser = await User.findById(id).select("-password");
+        if(getUser){
+            res.json({
+                status : true,
+                msg : "user fetched successfully.",
+                data : getUser
+            })
+        }
+        else{
+            res.json({
+                status : false,
+                msg : "invalid user id."
+            })
+        }
+    }
+    catch(err){
+        res.status(500).json({
+            status : false,
+            msg : "server error."
+        });
+    }
 }
